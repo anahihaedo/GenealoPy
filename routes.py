@@ -1,7 +1,11 @@
 from flask import render_template
 
+from genalopy.modeles.donnees import Place
 from .app import app
-from .modeles.donnees import Place
+
+
+# from .modeles.donnees import Place
+
 
 @app.route("/")
 def homepage():
