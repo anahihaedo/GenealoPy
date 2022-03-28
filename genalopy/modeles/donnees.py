@@ -1,4 +1,4 @@
-from ...app import db
+from genalopy.app import db
 
 
 class Personnes(db.Model):
@@ -32,16 +32,16 @@ class Relation_ville(db.Model):
 
 class Evenement(db.Model):
     evenement_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-    evenement = db.Column(db.Text)
+    evenement_nom = db.Column(db.Text)
 
-    class Date(db.Model):
-        date_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-        dates = db.Column(db.Text)
-        personne_evenement = db.Column(db.Text)
+class Date(db.Model):
+    date_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    dates = db.Column(db.Text)
+    personne_evenement = db.Column(db.Text)
 
-    class User(db.Model):
-        user_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-        user_nom = db.Column(db.Text, nullable=False)
-        user_login = db.Column(db.String(45), nullable=False)
-        user_email = db.Column(db.Text, nullable=False)
-        user_password = db.Column(db.String(64), nullable=False)
+class User(db.Model):
+    user_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    user_nom = db.Column(db.Text, nullable=False)
+    user_login = db.Column(db.String(45), nullable=False)
+    user_email = db.Column(db.Text, nullable=False)
+    user_password = db.Column(db.String(64), nullable=False)

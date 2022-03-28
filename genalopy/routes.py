@@ -1,7 +1,7 @@
 from flask import render_template
 
-from genalopy.modeles.donnees import Place
-from .app import app
+from .modeles.donnees import *
+from .app import app, db
 
 
 # from .modeles.donnees import Place
@@ -9,6 +9,10 @@ from .app import app
 
 @app.route("/")
 def homepage():
+    if Place.query.get(1):
+        print("y")
+    else:
+        print("n")
     lieux = Place.query.all()
     return render_template("pages/homepage.html", nom="GenealoPy", lieux=lieux)
 
