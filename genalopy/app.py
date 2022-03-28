@@ -24,6 +24,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # initier l'extension de la bdd
 db = SQLAlchemy(app)
 # configurer la gestion d'utilisateur-rice-s
-login = LoginManager(app)
+login: LoginManager = LoginManager(app)
 
 from .routes import *

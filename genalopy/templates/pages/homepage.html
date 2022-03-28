@@ -4,7 +4,7 @@
     {% if lieux %}
     <p>Il y a {{lieux|length}} lieux enregistrés :</p>
         <ul>
-            {% for lieu_id, lieu in lieux.items() %}
+            {% for lieu_id, lieu in lieu %}
                 <li><a href="{{url_for('lieu', place_id=lieu_id)}}">{{lieu.nom}}</a></li>
             {% endfor %}
         </ul>
