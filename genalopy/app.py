@@ -1,10 +1,11 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-# from .constantes import SECRET_KEY, templates, statics
+from .constantes import SECRET_KEY # ,templates, statics
+
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
@@ -16,7 +17,7 @@ app = Flask(
     static_folder=statics)
 
 # configurer le secret
-# app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = SECRET_KEY
 # configurer la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 # app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"check_same_thread": False}

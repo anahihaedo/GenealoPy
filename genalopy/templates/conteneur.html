@@ -10,10 +10,11 @@
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" href="{{ url_for('homepage') }}">GenealoPy</a>
-    <form class="form-inline">
+    <form class="form-inline" action="{{url_for('recherche')}}" method="GET">>
       <input class="form-control" type="search" name="keyword" placeholder="Recherche rapide" aria-label="Recherche">
       <button class="btn btn-outline-info" type="submit">Rechercher</button>
     </form>
 </nav>
 </body>
 </html>
+

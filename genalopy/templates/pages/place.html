@@ -1,13 +1,13 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if lieu %}| Lieu : {{lieu.nom}} {% endif %}
+    {%if lieu %}| Lieu : {{lieu.ville}} {% endif %}
 {% endblock %}
 
 {% block corps %}
     {% if lieu %}
-        <h1>{{lieu.nom}}</h1>
-        <h2>{{lieu.ville}}</h2>
+        <h1>{{lieu.ville}}</h1>
+        <h2>{{lieu.pays}}</h2>
        <!-- <dl>
             <dt>Longitude</dt><dd>{{lieu.latlong[1]}}</dd>
             <dt>Latitude</dt><dd>{{lieu.latlong[0]}}</dd>
