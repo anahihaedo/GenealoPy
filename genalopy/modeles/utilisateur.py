@@ -86,6 +86,7 @@ class User(UserMixin, db.Model):
         return self.user_id
 
 
+
 @login.user_loader
 def trouver_utilisateur_via_id(identifiant):
     return User.query.get(int(identifiant))
