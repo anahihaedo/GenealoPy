@@ -14,17 +14,18 @@ statics = os.path.join(chemin_actuel, "static")
 app = Flask(
     "Application",
     template_folder=templates,
-    static_folder=statics)
-
-# configurer le secret
+    static_folder=statics
+)
+# On configure le secret
 app.config['SECRET_KEY'] = SECRET_KEY
-# configurer la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-# app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"check_same_thread": False}
+# On configure la base de données
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db.sqlite'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# initier l'extension de la bdd
+# On initie l'extension
 db = SQLAlchemy(app)
-# configurer la gestion d'utilisateur-rice-s
-login: LoginManager = LoginManager(app)
 
-from .routes import *
+# On met en place la gestion d'utilisateur-rice-s
+login = LoginManager(app)
+
+
+from . import routes

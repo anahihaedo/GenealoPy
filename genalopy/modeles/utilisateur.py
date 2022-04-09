@@ -10,6 +10,8 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False, unique=True)
     user_email = db.Column(db.Text, nullable=False)
     user_password = db.Column(db.String(100), nullable=False)
+    Personnes = db.relationship("Personnes", back_populates="User")
+    authorships = db.relationship("Authorship", back_populates="user")
 
     @staticmethod
     def identification(login, motdepasse):
@@ -84,7 +86,6 @@ class User(UserMixin, db.Model):
         :rtype: int
         """
         return self.user_id
-
 
 
 @login.user_loader
