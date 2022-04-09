@@ -29,3 +29,7 @@ login = LoginManager(app)
 
 
 from . import routes
+
+
+def run(debug):
+    return None

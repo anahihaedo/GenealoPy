@@ -1,4 +1,4 @@
-from genalopy.app import app
+from genalopy import app
 
 if __name__ == "__main__":
     app.run(debug=True)
