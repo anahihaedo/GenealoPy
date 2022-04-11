@@ -1,15 +1,11 @@
+LIEUX_PAR_PAGES = 2
+
 from flask import render_template, request, flash, redirect
 from flask_login import login_user, current_user, logout_user
 
-from .app import login
-
-from .modeles import User
-from .modeles.donnees import *
-from .app import app, db
-
-# from .modeles.donnees import Place
-
-LIEUX_PAR_PAGES = 2
+from .app import app, login
+from .modeles.donnees import Place
+from .modeles.utilisateur import User
 
 
 @app.route("/")
@@ -28,6 +24,7 @@ def lieu(place_id):
     # On a bien sûr aussi modifié le template pour refléter le changement
     unique_lieu = Place.query.get(place_id)
     return render_template("pages/place.html", nom="GenealoPy", lieu=unique_lieu)
+
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
@@ -49,6 +46,7 @@ def inscription():
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
+
 
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
@@ -72,7 +70,9 @@ def connexion():
 
     return render_template("pages/connexion.html")
 
+
 login.login_view = 'connexion'
+
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
