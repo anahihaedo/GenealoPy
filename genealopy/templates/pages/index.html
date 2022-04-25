@@ -1,0 +1,15 @@
+{% extends "conteneur.html" %}
+{% block corps %}
+    <h1 class="text-center"> Bienvenue dans le répertoire des index.</h1>
+<p class="h3 text-center"> Choisissez l'index que vous voulez consulter : </p>
+<br/>
+<ul class="navbar-brand list-unstyled text-center">
+    <h3><a href="{{url_for('index_personnes')}}">Accès à l'index des personnes</a></h3>
+    <h3><a href="{{url_for('index_place')}}">Accès à l'index des lieux</a></h3>
+</ul>
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('homepage')}}">Retour à l'accueil.</a>
+</button>
+</p>
+{% endblock %}

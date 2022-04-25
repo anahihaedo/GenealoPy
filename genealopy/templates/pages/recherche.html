@@ -11,7 +11,7 @@
         <p>Il y a {{resultats.total}} lieux qui répondent à votre requête :</p>
         <ul>
             {% for lieu in resultats.items %}
-                <li><a href="{{url_for('lieu', place_id=lieu.place_id)}}">{{lieu.place_ville}}</a></li>
+                <li><a href="{{url_for('place', place_id=place.place_id)}}">{{place.place_nom}}</a></li>
             {% endfor %}
         </ul>
     <nav aria-label="research-pagination">

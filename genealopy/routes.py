@@ -1,10 +1,12 @@
+from .modeles import donnees
+
 LIEUX_PAR_PAGES = 2
 
 from flask import render_template, request, flash, redirect
 from flask_login import login_user, current_user, logout_user
 
 from .app import app, login
-from .modeles.donnees import Place
+from .modeles.donnees import Place, Personnes
 from .modeles.utilisateur import User
 
 
@@ -14,10 +16,41 @@ def homepage():
     return render_template("pages/homepage.html", nom="GenealoPy", lieux=lieux)
 
 
-@app.route("/fonds")
+@app.route("/index")
 def base():
-    return render_template("pages/recherche_avancée.html")
+    return render_template("/index.html")
 
+@app.route("/index/personnes/")
+def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/Index_personnes.html", personnes=personnes)
+
+@app.route("/index/place/")
+def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/index_place.html", place=place)
+
+@app.route("/personne/<int:personnes_id>")
+def personne(personnes_id, personne_id=None):
+    """Création d'une page de contenu pour une personne.
+        :param personnes_id: Id de la clé primaire de la table Personnes dans la base de données
+        :type personnes_id: Integer
+        :returns: création de la page grâce au render_template """
+
+    personne_unique = Personnes.query.filter(Personnes.personne_id == personne_id).first()
+    return render_template("pages/personne.html", personne=personne_unique)
 
 @app.route("/place/<int:place_id>")
 def lieu(place_id):
