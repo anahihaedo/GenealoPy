@@ -1,7 +1,7 @@
 import os
 from flask import Flask
 
-from flak_login import LoginManager
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 #from .constantes import CONFIG
