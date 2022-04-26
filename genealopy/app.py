@@ -4,7 +4,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-#from .constantes import CONFIG
+# from .constantes import CONFIG
 from .constantes import SECRET_KEY
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +20,7 @@ app = Flask(
 # configuration de l'application: secret, base de données, login manager
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-db = SQLAlchemy(app)
+db: object = SQLAlchemy(app)
 login = LoginManager(app)
 
 """

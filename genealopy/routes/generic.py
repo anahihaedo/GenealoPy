@@ -11,9 +11,44 @@ from ..modeles.utilisateur import *
 def homepage():
     """ Route permettant l'affichage d'une page accueil
     """
-    # On a bien sûr aussi modifié le template pour refléter le changement
-    lieux = Place.query.order_by(Place.place_id.desc()).limit(5).all()
-    return render_template("pages/homepage.html", nom="Genealopy", lieux=lieux)
+    return render_template("pages/homepage.html")
+
+
+@app.route("/index")
+def base():
+    return render_template("/index.html")
+
+@app.route("/index/personnes/")
+def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/Index_personnes.html", personnes=personnes)
+
+@app.route("/index/place/")
+def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/index_place.html", place=place)
+
+@app.route("/personne/<int:personnes_id>")
+def personne(personnes_id):
+    """Création d'une page de contenu pour une personne.
+        :param personnes_id: Id de la clé primaire de la table Personnes dans la base de données
+        :type personnes_id: Integer
+        :returns: création de la page grâce au render_template """
+
+    personne_unique = Personnes.query.filter(Personnes.personnes_id == personnes_id).first()
+    return render_template("pages/personne.html", personne=personne_unique)
 
 
 @app.route("/place/<int:place_id>")
@@ -58,27 +93,6 @@ def recherche():
         resultats=resultats,
         titre=titre,
         keyword=motclef
-    )
-
-
-@app.route("/browse")
-def browse():
-    """ Route permettant la recherche plein-texte
-    """
-    # On préfèrera l'utilisation de .get() ici
-    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
-    page = request.args.get("page", 1)
-
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    resultats = Place.query.paginate(page=page, per_page=LIEUX_PAR_PAGE)
-
-    return render_template(
-        "pages/browse.html",
-        resultats=resultats
     )
 
 
@@ -134,3 +148,23 @@ def deconnexion():
         logout_user()
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
+
+@app.route("/browse")
+def browse():
+    """ Route permettant la recherche plein-texte
+    """
+    # On préfèrera l'utilisation de .get() ici
+    #   qui nous permet d'éviter un if long (if "clef" in dictionnaire and dictonnaire["clef"])
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = Place.query.paginate(page=page, per_page=LIEUX_PAR_PAGE)
+
+    return render_template(
+        "pages/browse.html",
+        resultats=resultats
+    )
