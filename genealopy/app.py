@@ -1,8 +1,11 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
 import os
+
+from flask import Flask
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+
 from .constantes import CONFIG
+
 
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
@@ -20,9 +23,6 @@ app = Flask(
 )
 
 
-from .routes import generic
-
-
 def config_app(config_name="test"):
     """ Create the application """
     app.config.from_object(CONFIG[config_name])
@@ -37,5 +37,9 @@ def config_app(config_name="test"):
     return app
 
 
-def run(debug):
+def run(debug: object) -> object:
+    """
+
+    :rtype: object
+    """
     return None

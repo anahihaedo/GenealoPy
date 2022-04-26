@@ -20,6 +20,7 @@ def homepage():
 def base():
     return render_template("/index.html")
 
+
 @app.route("/index/personnes/")
 def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
     page = request.args.get("page", 1)
@@ -30,6 +31,7 @@ def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
 
     personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/Index_personnes.html", personnes=personnes)
+
 
 @app.route("/index/place/")
 def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
@@ -42,6 +44,7 @@ def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
     place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_place.html", place=place)
 
+
 @app.route("/personne/<int:personnes_id>")
 def personne(personnes_id, personne_id=None):
     """Création d'une page de contenu pour une personne.
@@ -51,6 +54,7 @@ def personne(personnes_id, personne_id=None):
 
     personne_unique = Personnes.query.filter(Personnes.personne_id == personne_id).first()
     return render_template("pages/personne.html", personne=personne_unique)
+
 
 @app.route("/place/<int:place_id>")
 def lieu(place_id):

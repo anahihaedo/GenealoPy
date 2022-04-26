@@ -1,7 +1,14 @@
 {% extends "conteneur.html" %}
 {% block corps %}
-<h1>Bienvenue !</h1>
-    {% if lieux %}
+<h1>Bienvenue sur GenealoPy !</h1>
+
+<div>
+    <p>GenealoPy est une application de recherche genealogique, sur la famille Poggi.</p>
+    <p>C'est projet a été fait dans le cadre de formation au langage de programmation Python du master
+                    TNAH de l'Ecole Nationale des Chartes, 2021-2022.</p>
+</div>
+
+{% if lieux %}
     <p>Il y a {{lieux|length}} lieux enregistrés :</p>
         <ul>
             {% for lieu_id, lieu in lieu %}
