@@ -6,7 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 from .constantes import CONFIG
 
-
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
 statics = os.path.join(chemin_actuel, "static")
@@ -43,3 +42,6 @@ def run(debug: object) -> object:
     :rtype: object
     """
     return None
+
+
+from .routes.generic import *

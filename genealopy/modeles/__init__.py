@@ -1,4 +1,4 @@
-from .donnees import *
+from genealopy.modeles.donnees import *
 from .utilisateur import *
 
 

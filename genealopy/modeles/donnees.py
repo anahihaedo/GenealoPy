@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from genalopy.app import db
+from genealopy.app import db
 
 
 class Authorship(db.Model):
