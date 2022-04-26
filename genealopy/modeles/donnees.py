@@ -16,11 +16,12 @@ class Authorship(db.Model):
     user = db.relationship("User", back_populates="authorships")
     place = db.relationship("Place", back_populates="authorships")
     personnes = db.relationship("Personnes", back_populates="authorships")
-    relation = db.relationship("relation", back_populates="authorships")
-    evenement = db.relationship("evenement", back_populates="authorships")
+    relation = db.relationship("Relation", back_populates="authorships")
+    evenement = db.relationship("Evenement", back_populates="authorships")
 
 
 class Personnes(db.Model):
+    __tablename__ = "personnes"
     personne_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     personne_nom = db.Column(db.Text)
     personne_prenom = db.Column(db.Text)
@@ -28,41 +29,54 @@ class Personnes(db.Model):
     place_mariage_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
     place_deces_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
 
-    place = db.relationship("Place", back_populates="Personnes")
-    evenement = db.relationship("Evenement", back_populates="Personnes")
-    relation = db.relationship("Relation", back_populates="Personnes")
-    user = db.relationship("User", back_populates="Personnes")
-    authorships = db.relationship("Authorship", back_populates="Personnes")
+    place_naissance = db.relationship("Place", foreign_keys=[place_naissance_id],
+                                      backref="personnes_place_naissance")
+    place_mariage = db.relationship("Place", foreign_keys=[place_mariage_id],
+                                    backref="personnes_place_mariage")
+    place_deces = db.relationship("Place", foreign_keys=[place_deces_id],
+                                  backref="personnes_place_deces")
+    evenement = db.relationship("Evenement", back_populates="personnes")
+    # relation = db.relationship("Relation", back_populates="personnes")
+    # user = db.relationship("User", back_populates="personnes")
+    authorships = db.relationship("Authorship", back_populates="personnes")
 
 
 class Place(db.Model):
+    __tablename__ = "place"
     place_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     place_nom = db.Column(db.Text)
     place_pays = db.Column(db.Text)
 
-    personnes = db.relationship("Personnes", back_populates="Place")
-    evenement = db.relationship("Evenement", back_populates="Place")
-    user = db.relationship("User", back_populates="Place")
-    authorships = db.relationship("Authorship", back_populates="Place")
+    # personnes = db.relationship("Personnes", back_populates="place")
+    evenement = db.relationship("Evenement", back_populates="place")
+    # user = db.relationship("User", back_populates="place")
+    authorships = db.relationship("Authorship", back_populates="place")
+
+
+class Evenement(db.Model):
+    __tablename__ = "evenement"
+    evenement_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    evenement_nom = db.Column(db.Text)
+    evenement_date = db.Column(db.Text)
+    evenement_personne_id = db.Column(db.Integer, db.ForeignKey('personnes.personne_id'))
+    evenement_place_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
+
+    personnes = db.relationship("Personnes", back_populates="evenement")
+    # relation = db.relationship("Relation", back_populates="evenement")
+    place = db.relationship("Place", back_populates="evenement")
+    authorships = db.relationship("Authorship", back_populates="evenement")
 
 
 class Relation(db.Model):
+    __tablename__ = "relation"
     relation_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     relation_nom = db.Column(db.Text)
     relation_personne_1_id = db.Column(db.Integer, db.ForeignKey('personnes.personne_id'))
     relation_personne_2_id = db.Column(db.Integer, db.ForeignKey('personnes.personne_id'))
 
-    personnes = db.relationship("Personnes", back_populates="Relation")
-    evenement = db.relationship("Evenement", back_populates="Relation")
-
-
-class Evenement(db.Model):
-    evenement_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
-    evenement_nom = db.Column(db.Text)
-    evenement_date = db.Column(db.Text)
-    evenement_personne_id = db.Column(db.Integer, db.ForeignKey('personnes.personnes_id'))
-    evenement_place_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
-
-    personnes = db.relationship("Personnes", back_populates="Evenement")
-    relation = db.relationship("Relation", back_populates="Evenement")
-    place = db.relationship("Place", back_populates="Evenement")
+    personne_1 = db.relationship("Personnes", foreign_keys=[relation_personne_1_id],
+                                 backref="relation_personne_1")
+    personne_2 = db.relationship("Personnes", foreign_keys=[relation_personne_2_id],
+                                 backref="relation_personne_2")
+    # evenement = db.relationship("Evenement", back_populates="relation")
+    authorships = db.relationship("Authorship", back_populates="relation")
