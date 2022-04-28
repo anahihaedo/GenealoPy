@@ -2,9 +2,11 @@ from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user
 
 from ..app import app, login
-from ..constantes import LIEUX_PAR_PAGE
+from ..constantes import LIEUX_PAR_PAGE, PERSONNES_PAR_PAGE, RESULTATS_PAR_PAGES_INDEX, RESULTATS_PAR_PAGE
 from ..modeles.donnees import *
 from ..modeles.utilisateur import *
+
+from sqlalchemy import and_, or_
 
 
 @app.route("/")
@@ -18,7 +20,7 @@ def homepage():
 def base():
     return render_template("/index.html")
 
-@app.route("/index/personnes/")
+@app.route("/index/personnes")
 def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
@@ -40,15 +42,25 @@ def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
     place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_place.html", place=place)
 
-@app.route("/personne/<int:personnes_id>")
-def personne(personnes_id):
+@app.route("/personnes/<int:personne_id>")
+def personnes(personne_id):
     """Création d'une page de contenu pour une personne.
-        :param personnes_id: Id de la clé primaire de la table Personnes dans la base de données
-        :type personnes_id: Integer
+        :param personne_id: Id de la clé primaire de la table Personnes dans la base de données
+        :type personne_id: Integer
         :returns: création de la page grâce au render_template """
 
-    personne_unique = Personnes.query.filter(Personnes.personnes_id == personnes_id).first()
-    return render_template("pages/personne.html", personne=personne_unique)
+    personne_unique = Personnes.query.filter(Personnes.personne_id == personne_id).first()
+    return render_template("pages/personnes.html", personnes=personne_unique)
+
+@app.route("/evenement")
+def evenement(evenement_id):
+    """Création d'une page de contenu pour une personne.
+        :param evenement_id: Id de la clé primaire de la table Personnes dans la base de données
+        :type evenement_id: Integer
+        :returns: création de la page grâce au render_template """
+
+    evenement_unique = Evenement.query.filter(Evenement.evenement_id == evenement_id).first()
+    return render_template("pages/evenement.html", evenement=evenement_unique)
 
 
 @app.route("/place/<int:place_id>")
@@ -83,17 +95,16 @@ def recherche():
     # On fait de même pour le titre de la page
     titre = "Recherche"
     if motclef:
-        resultats = Place.query.filter(
-            Place.place_nom.like("%{}%".format(motclef))
-        ).paginate(page=page, per_page=LIEUX_PAR_PAGE)
-        titre = "Résultat pour la recherche `" + motclef + "`"
-
-    return render_template(
-        "pages/recherche.html",
-        resultats=resultats,
-        titre=titre,
-        keyword=motclef
-    )
+        resultats = Personnes.query.filter(
+                or_(
+                Personnes.personne_nom.like("%{}%".format(motclef)),
+                Personnes.personne_prenom.like("%{}%".format(motclef)),
+                Personnes.personne_id.like("%{}%".format(motclef))
+                )
+            ).all()
+        print(dir(resultats))
+        titre = "Résultat pour la recherche '" + motclef + "'"
+    return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
 
 
 @app.route("/register", methods=["GET", "POST"])

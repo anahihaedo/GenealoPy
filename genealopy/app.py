@@ -20,7 +20,7 @@ app = Flask(
 # configuration de l'application: secret, base de données, login manager
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-db: object = SQLAlchemy(app)
+db = SQLAlchemy(app)
 login = LoginManager(app)
 
 """

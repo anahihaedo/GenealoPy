@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy import and_, or_
 
 from genealopy.app import db
 
@@ -25,19 +26,9 @@ class Personnes(db.Model):
     personne_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     personne_nom = db.Column(db.Text)
     personne_prenom = db.Column(db.Text)
-    place_naissance_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
-    place_mariage_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
-    place_deces_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
 
-    place_naissance = db.relationship("Place", foreign_keys=[place_naissance_id],
-                                      backref="personnes_place_naissance")
-    place_mariage = db.relationship("Place", foreign_keys=[place_mariage_id],
-                                    backref="personnes_place_mariage")
-    place_deces = db.relationship("Place", foreign_keys=[place_deces_id],
-                                  backref="personnes_place_deces")
     evenement = db.relationship("Evenement", back_populates="personnes")
     # relation = db.relationship("Relation", back_populates="personnes")
-    # user = db.relationship("User", back_populates="personnes")
     authorships = db.relationship("Authorship", back_populates="personnes")
 
 
@@ -47,9 +38,7 @@ class Place(db.Model):
     place_nom = db.Column(db.Text)
     place_pays = db.Column(db.Text)
 
-    # personnes = db.relationship("Personnes", back_populates="place")
     evenement = db.relationship("Evenement", back_populates="place")
-    # user = db.relationship("User", back_populates="place")
     authorships = db.relationship("Authorship", back_populates="place")
 
 
