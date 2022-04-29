@@ -5,11 +5,11 @@
     Il y 10 personnes enregistrées (classées par ordre alphabétique) :
 
         <ul>
-            {% for personne in personnes.items %}
-                <li><div class="card"><a href="{{url_for('personne', personnes_id=personne.personnes_id)}}">
-                    <b>Nom </b>: {{personnes.personne_nom}}<br/>
-                    <b>Prénom</b> : {{personne.personne_prenom}}<br/>
-                    <b> Identifiant </b> : {{personne.personne_id}}
+            {% for person in personnes.items %}
+                <li><div class="card"><a href="{{url_for('person', personne_id=person.personne_id)}}">
+                    <b>Nom </b>: {{person.personne_nom}}<br/>
+                    <b>Prénom</b> : {{person.personne_prenom}}<br/>
+                    <b> Identifiant </b> : {{person.personne_id}}
                 </a></div></li><br/>
             {% endfor %}
         </ul>
@@ -21,7 +21,7 @@
 
               {% if page != personnes.page %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('index_personnes', page=page) }}">{{page}}</a>
+                    <a class="page-link" href="{{ url_for('index_person', page=page) }}">{{page}}</a>
                 </li>
               {% else %}
                 <li class="page-item active disabled">
@@ -39,7 +39,7 @@
 
 <p class="text-center">
 <button type="button" class="btn btn-dark">
-    <a class="text-light" href="{{url_for('index')}}">Retour à l'index général.</a>
+    <a class="text-light" href="{{url_for('base')}}">Retour à l'index général.</a>
 </button>
 </p>
 </nav>

@@ -18,21 +18,21 @@ def homepage():
 
 @app.route("/index")
 def base():
-    return render_template("/index.html")
+    return render_template("pages/index.html")
 
-@app.route("/index/personnes")
-def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
+@app.route("/index_person")
+def index_person():
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
 
-    index_personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
-    return render_template("pages/Index_personnes.html", personnes=personnes)
+    personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/person_index.html", personnes=personnes)
 
-@app.route("/index/place/")
-def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
+@app.route("/index_place")
+def index_place():
     page = request.args.get("page", 1)
     if isinstance(page, str) and page.isdigit():
         page = int(page)
@@ -41,6 +41,17 @@ def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
 
     place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_place.html", place=place)
+
+@app.route("/index_even")
+def index_even():
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    evenem = evenement.query.order_by(evenement.evenement_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/index_even.html", evenem=evenem)
 
 @app.route("/person/<int:personne_id>")
 def person(personne_id):
