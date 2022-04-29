@@ -4,10 +4,10 @@
 {% include "partials/recherche.html" %}
     <h1 class="text-center">{{titre}}</h1>
     {% if resultats %}
-        <p>Il y a {{resultats.total}} de personne(s) qui répondent à votre requête :</p>
+        <p>Il y a {{resultats|length}} de personne(s) qui répondent à votre requête :</p>
         <ul>
-            {% for personnes in resultats.items %}
-                <li><a href="{{url_for('personnes', personne_id=personnes.personne_id)}}">{{personnes.personne_nom}}</a></li>
+            {% for recherche in resultats.items %}
+                <li><a href="{{url_for('recherche', personne_id=recherche.personne_id)}}">{{recherche.personne_nom}}</a></li>
             {% endfor %}{% endif %}
         </ul>
 

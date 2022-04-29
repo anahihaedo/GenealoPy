@@ -1,0 +1,26 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if evenement %}| Évenement : {{even.evenement_nom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if even %}
+        <h1>{even.evenement_nom}}</h1>
+        <dl>
+            <dt>Évenement</dt><dd>{{even.evenement_nom}}</dd>
+            <dt>Date de l'évenement</dt><dd>{{even.evenement_date}}</dd>
+            <dt>ID de l'évenement</dt><dd>{{even.evenement_id}}</dd>
+            <dt>ID du lieu de l'évenement</dt><dd>{{even.id_evenement_place}}</dd>
+            <dt>ID de la personne concernée par l'évenement</dt><dd>{{even.evenement_personne_id}}</dd>
+        </dl>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+<p class="col-md-12 text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('index_personnes')}}">Retour à l'index des personnes.</a>
+</button>
+</p>
+{% endblock %}

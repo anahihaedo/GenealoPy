@@ -28,7 +28,7 @@ def index_personnes(RESULTATS_PAR_PAGES_INDEX=None):
     else:
         page = 1
 
-    personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    index_personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/Index_personnes.html", personnes=personnes)
 
 @app.route("/index/place/")
@@ -42,25 +42,21 @@ def index_lieux(RESULTATS_PAR_PAGES_INDEX=None):
     place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_place.html", place=place)
 
-@app.route("/personnes/<int:personne_id>")
-def personnes(personne_id):
+@app.route("/person/<int:personne_id>")
+def person(personne_id):
     """Création d'une page de contenu pour une personne.
         :param personne_id: Id de la clé primaire de la table Personnes dans la base de données
         :type personne_id: Integer
         :returns: création de la page grâce au render_template """
 
-    personne_unique = Personnes.query.filter(Personnes.personne_id == personne_id).first()
-    return render_template("pages/personnes.html", personnes=personne_unique)
+    personne_unique = Personnes.query.get(personne_id)
+    return render_template("pages/person.html", person=personne_unique)
 
-@app.route("/evenement")
-def evenement(evenement_id):
-    """Création d'une page de contenu pour une personne.
-        :param evenement_id: Id de la clé primaire de la table Personnes dans la base de données
-        :type evenement_id: Integer
-        :returns: création de la page grâce au render_template """
+@app.route("/even/<int:evenement_id>")
+def even(evenement_id):
 
-    evenement_unique = Evenement.query.filter(Evenement.evenement_id == evenement_id).first()
-    return render_template("pages/evenement.html", evenement=evenement_unique)
+    unique_even = evenement.query.get(evenement_id)
+    return render_template("pages/even.html", nom="Genealopy", even=unique_even)
 
 
 @app.route("/place/<int:place_id>")

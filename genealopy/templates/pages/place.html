@@ -1,14 +1,14 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if lieu %}| Lieu : {{place.place_nom}} {% endif %}
+    {%if lieu %}| Lieu : {{lieu.place_nom}} {% endif %}
 {% endblock %}
 
 {% block corps %}
     {% if lieu %}
-        <h1>{place.place_nom}}</h1>
+        <h1>{lieu.place_nom}}</h1>
         <dl>
-            <dt>Ville</dt><dd>{{place.place_nom}}</dd>
+            <dt>Ville</dt><dd>{{lieu.place_nom}}</dd>
             <dt>Pays</dt><dd>{{lieu.place_pays}}</dd>
             <dt>ID</dt><dd>{{lieu.place_id}}</dd>
         </dl>

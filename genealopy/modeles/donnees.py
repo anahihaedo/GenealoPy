@@ -18,7 +18,7 @@ class Authorship(db.Model):
     place = db.relationship("Place", back_populates="authorships")
     personnes = db.relationship("Personnes", back_populates="authorships")
     relation = db.relationship("Relation", back_populates="authorships")
-    evenement = db.relationship("Evenement", back_populates="authorships")
+    evenement = db.relationship("evenement", back_populates="authorships")
 
 
 class Personnes(db.Model):
@@ -27,7 +27,7 @@ class Personnes(db.Model):
     personne_nom = db.Column(db.Text)
     personne_prenom = db.Column(db.Text)
 
-    evenement = db.relationship("Evenement", back_populates="personnes")
+    evenement = db.relationship("evenement", back_populates="personnes")
     # relation = db.relationship("Relation", back_populates="personnes")
     authorships = db.relationship("Authorship", back_populates="personnes")
 
@@ -38,17 +38,17 @@ class Place(db.Model):
     place_nom = db.Column(db.Text)
     place_pays = db.Column(db.Text)
 
-    evenement = db.relationship("Evenement", back_populates="place")
+    evenement = db.relationship("evenement", back_populates="place")
     authorships = db.relationship("Authorship", back_populates="place")
 
 
-class Evenement(db.Model):
+class evenement(db.Model):
     __tablename__ = "evenement"
     evenement_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     evenement_nom = db.Column(db.Text)
     evenement_date = db.Column(db.Text)
     evenement_personne_id = db.Column(db.Integer, db.ForeignKey('personnes.personne_id'))
-    evenement_place_id = db.Column(db.Integer, db.ForeignKey('place.place_id'))
+    id_evenement_place = db.Column(db.Integer, db.ForeignKey('place.place_id'))
 
     personnes = db.relationship("Personnes", back_populates="evenement")
     # relation = db.relationship("Relation", back_populates="evenement")
@@ -67,5 +67,5 @@ class Relation(db.Model):
                                  backref="relation_personne_1")
     personne_2 = db.relationship("Personnes", foreign_keys=[relation_personne_2_id],
                                  backref="relation_personne_2")
-    # evenement = db.relationship("Evenement", back_populates="relation")
+    # evenement = db.relationship("evenement", back_populates="relation")
     authorships = db.relationship("Authorship", back_populates="relation")
