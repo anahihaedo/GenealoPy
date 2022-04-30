@@ -1,5 +1,5 @@
 from flask import render_template, request, flash, redirect
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 
 from ..app import app, login
 from ..constantes import LIEUX_PAR_PAGE, PERSONNES_PAR_PAGE, RESULTATS_PAR_PAGES_INDEX, RESULTATS_PAR_PAGES
@@ -113,6 +113,48 @@ def recherche():
         titre = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
 
+@app.route("/ajout_person", methods=["GET", "POST"])
+@login_required
+def ajout_person():
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Personnes.ajout_personne(
+        ajout_person_id = request.form.get("ajout_person_id", None),
+        ajout_person_nom = request.form.get("ajout_person_nom", None),
+        ajout_person_prenom = request.form.get("ajout_person_prenom", None)
+        )
+
+        if statut is True:
+            flash("Ajouter une nouvelle personne", "success")
+            return redirect("/")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return render_template("pages/ajout_person.html")
+    else:
+        return render_template("pages/ajout_person.html")
+
+@app.route("/ajout_place", methods=["GET", "POST"])
+@login_required
+def ajout_place():
+
+    # Ajout d'une personne
+    if request.method == "POST":
+        statut, informations = Place.ajout_place(
+        ajout_place_id = request.form.get("ajout_place_id", None),
+        ajout_place_nom = request.form.get("ajout_place_nom", None),
+        ajout_place_pays = request.form.get("ajout_place_pays", None)
+        )
+
+        if statut is True:
+            flash("Ajouter une nouvelle ville", "success")
+            return redirect("/")
+        else:
+            flash("L'ajout a échoué pour les raisons suivantes : " + ", ".join(informations), "danger")
+            return render_template("pages/ajout_place.html")
+    else:
+        return render_template("pages/ajout_place.html")
+
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
@@ -134,6 +176,46 @@ def inscription():
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
+
+
+@app.route("/supprimer_person/<int:personne_id>", methods=["POST", "GET"])
+@login_required
+def supprimer_person(personne_id):
+    suppr_person = Personnes.query.get(personne_id)
+
+    if request.method == "POST":
+        statut = Personnes.supprimer_person(
+            personne_id=personne_id
+        )
+
+        if statut is True:
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        else:
+            flash("La suppression a échoué. Réessayez !", "error")
+            return redirect("/")
+    else:
+        return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
+
+@app.route("/supprimer_place/<int:place_id>", methods=["POST", "GET"])
+@login_required
+def supprimer_place(place_id):
+    suppr_place = Place.query.get(place_id)
+
+    if request.method == "POST":
+        statut = Place.supprimer_person(
+            place_id=place_id
+        )
+
+        if statut is True:
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        else:
+            flash("La suppression a échoué. Réessayez !", "error")
+            return redirect("/")
+    else:
+        return render_template("pages/supprimer_place.html", suppr_place=suppr_place)
+
 
 
 @app.route("/connexion", methods=["POST", "GET"])

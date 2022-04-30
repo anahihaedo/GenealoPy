@@ -1,0 +1,44 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+<div>
+    <center>
+        <h2>Ajouter des données </h2>
+        <p> Complétez le formulaire et cliquez sur "Ajouter" pour adicioner un nouveau lieu.</p>
+    </center>
+</div>
+<form class="form" method="POST" action="{{url_for('ajout_place')}}">
+    <div class="form-group row">
+      <label for="ajout_place_id" class="col-sm-2 col-form-label">Identifiant du lieu </label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_place_id" placeholder="Identifiant du lieu"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_place_nom" class="col-sm-2 col-form-label">Ville</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_place_nom" placeholder="Nom de la ville"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_place_pays" class="col-sm-2 col-form-label">Pays</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_place_pays" placeholder="Nom du pays "/>
+      </div>
+    </div>
+
+        <center>
+      <div>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+    </center>
+</form>
+<br/>
+
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('index_place')}}">Retour à l'index des lieux.</a></li>
+</button>
+</p>
+{% endblock %}

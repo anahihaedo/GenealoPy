@@ -1,0 +1,44 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+<div>
+    <center>
+        <h2>Ajouter des données </h2>
+        <p> Complétez le formulaire et cliquez sur "Ajouter" pour adicioner une nouvelle personne.</p>
+    </center>
+</div>
+<form class="form" method="POST" action="{{url_for('ajout_person')}}">
+    <div class="form-group row">
+      <label for="ajout_person_id" class="col-sm-2 col-form-label">Identifiant de la personne</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_person_id" placeholder="Identifiant de la personne"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_person_nom" class="col-sm-2 col-form-label">Nom de la personne</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_person_nom" placeholder="Nom de la personne"/>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="ajout_person_prenom" class="col-sm-2 col-form-label">Prénom de la personne</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="ajout_person_prenom" placeholder="Prénom de la personne "/>
+      </div>
+    </div>
+
+        <center>
+      <div>
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+      </div>
+    </center>
+</form>
+<br/>
+
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('index_person')}}">Retour à l'index des personnes.</a></li>
+</button>
+</p>
+{% endblock %}

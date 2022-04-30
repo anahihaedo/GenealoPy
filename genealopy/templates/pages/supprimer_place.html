@@ -1,0 +1,34 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+<h1 class="text-center">Supprimer les données</h1>
+
+
+<form method="POST" action="{{url_for('supprimer_place', place_id=suppr_place.place_id)}}">
+	<div>
+		<p class="text-center"><b>Voulez-vous supprimer ce lieu ?</b>
+		<br/>
+		<p name="place" value="{{suppr_place}}">
+			<b>Identifiant du lieu</b> : {{suppr_place.place_id}} <br/>
+			<b>Nom de la ville : </b>{{suppr_place.place_nom}} <br/>
+			<b>Nom du pays :</b> {{suppr_place.place_pays}} <br/>
+		</p>
+	</div>
+	<br/>
+</form>
+<p class="text-center">
+	<input type="submit" name="Confirmer" class="btn btn-info">
+<button type="button" class="btn btn-danger">
+    <a class="text-light" href="{{url_for('index_place')}}">Annuler</a></li>
+</button>
+
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('homepage')}}">Retour à la page d'accueil.</a></li>
+</button>
+</p>
+
+
+
+{% endblock %}

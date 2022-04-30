@@ -31,6 +31,51 @@ class Personnes(db.Model):
     # relation = db.relationship("Relation", back_populates="personnes")
     authorships = db.relationship("Authorship", back_populates="personnes")
 
+    @staticmethod
+    def ajout_person(ajout_person_id, ajout_person_nom, ajout_person_prenom):
+        erreurs = []
+        if not ajout_person_id:
+            erreurs.append("Veuillez renseigner l'identifiant pour cette personne.")
+        if not ajout_person_nom:
+            erreurs.append(
+                "Veuillez renseigner le nom de cette personne")
+        if not ajout_person_prenom:
+            erreurs.append(
+                "Veuillez renseigner le prénom de cette personne")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table AMendes (champs correspondant aux paramètres du modèle)
+        nouvelle_personne = Personnes(personne_id=ajout_personnes_id,
+                                      personne_nom=ajout_personnes_nom,
+                                      personne_prenom=ajout_personnes_prenom)
+
+        # Tentative d'ajout qui sera stoppée si une erreur apparaît.
+        try:
+            db.session.add(new_person)
+            db.session.commit()
+            return True, new_person
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
+    # Méthode statique qui permet de supprimer une personne et qui est appelée dans la route correspondante.
+
+    @staticmethod
+    def supprimer_person(personne_id):
+
+        suppr_person = Personnes.query.get(personne_id)
+
+        try:
+            db.session.delete(suppr_person)
+            db.session.commit()
+            return True
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 
 class Place(db.Model):
     __tablename__ = "place"
@@ -40,6 +85,51 @@ class Place(db.Model):
 
     evenement = db.relationship("evenement", back_populates="place")
     authorships = db.relationship("Authorship", back_populates="place")
+
+    @staticmethod
+    def ajout_person(ajout_place_id, ajout_place_nom, ajout_place_pays):
+        erreurs = []
+        if not ajout_place_id:
+            erreurs.append("Veuillez renseigner l'identifiant du lieu.")
+        if not ajout_place_nom:
+            erreurs.append(
+                "Veuillez renseigner la ville")
+        if not ajout_place_pays:
+            erreurs.append(
+                "Veuillez renseigner le pays")
+
+            # S'il y a au moins une erreur, afficher un message d'erreur.
+        if len(erreurs) > 0:
+            return False, erreurs
+
+
+        nouveau_lieu = Place(place_id=ajout_place_id,
+                                      place_nom=ajout_place_nom,
+                                      place_pays=ajout_place_pays)
+
+        # Tentative d'ajout qui sera stoppée si une erreur apparaît.
+        try:
+            db.session.add(new_place)
+            db.session.commit()
+            return True, new_place
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
+    # Méthode statique qui permet de supprimer une personne et qui est appelée dans la route correspondante.
+
+    @staticmethod
+    def supprimer_place(place_id):
+
+        suppr_place = Place.query.get(place_id)
+
+        try:
+            db.session.delete(suppr_place)
+            db.session.commit()
+            return True
+
+        except Exception as erreur:
+            return False, [str(erreur)]
 
 
 class evenement(db.Model):
