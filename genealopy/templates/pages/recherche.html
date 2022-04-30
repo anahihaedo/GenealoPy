@@ -4,14 +4,13 @@
 {% include "partials/recherche.html" %}
     <h1 class="text-center">{{titre}}</h1>
     {% if resultats %}
-        <p>Il y a {{resultats|length}} de personne(s) qui répondent à votre requête :</p>
-        <ul>
-            {% for recherche in resultats.items %}
-                <li><a href="{{url_for('recherche', personne_id=recherche.personne_id)}}">{{recherche.personne_nom}}</a></li>
-            {% endfor %}{% endif %}
-        </ul>
+        <p>Il y a {{resultats.total}} de personne(s) qui répondent à votre requête :</p>
 
-    <nav aria-label="research-pagination">
+            {% for person in resultats.items %}
+                <li><a href="{{url_for('person', personne_id=person.personne_id)}}">{{person.personne_nom}}</a></li>
+            {% endfor %}{% endif %}
+
+ <nav aria-label="research-pagination">
       <ul class="pagination">
 
               {% if page != resultats.page %}

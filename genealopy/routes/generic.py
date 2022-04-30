@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user
 
 from ..app import app, login
-from ..constantes import LIEUX_PAR_PAGE, PERSONNES_PAR_PAGE, RESULTATS_PAR_PAGES_INDEX, RESULTATS_PAR_PAGE
+from ..constantes import LIEUX_PAR_PAGE, PERSONNES_PAR_PAGE, RESULTATS_PAR_PAGES_INDEX, RESULTATS_PAR_PAGES
 from ..modeles.donnees import *
 from ..modeles.utilisateur import *
 
@@ -108,8 +108,8 @@ def recherche():
                 Personnes.personne_prenom.like("%{}%".format(motclef)),
                 Personnes.personne_id.like("%{}%".format(motclef))
                 )
-            ).all()
-        print(dir(resultats))
+        ) \
+            .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         titre = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
 
