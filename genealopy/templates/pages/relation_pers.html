@@ -1,0 +1,23 @@
+{% extends "conteneur.html" %}
+
+{% block title %} {{title}} {%endblock%}
+
+{% block corps %}
+<h1>{{titre}}</h1>
+
+    {% if relation and pessoas %}
+    <h4>Relation</h4>
+    <p>Il y a {{relation|length}} relations enregistrées qui répond à votre requête :</p>
+        <ul>
+            {% for i in relation %}
+                <li><a href="{{url_for('relationship', title=i.title}}"> {{i.title}}</a></li>
+            {% endfor %}
+        </ul>
+    <h4>Personnes</h4>
+    <p>Il y a {{count}} pessoas :</p>
+        <ul>
+            {% for i in pers %}
+                <li><a href="{{url_for('relationship', title=i.title }}"> {{i.title}} }}) </a></li>
+            {% endfor %}
+        </ul>
+{% endblock %}

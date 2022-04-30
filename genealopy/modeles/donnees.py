@@ -43,16 +43,16 @@ class Personnes(db.Model):
             erreurs.append(
                 "Veuillez renseigner le prénom de cette personne")
 
-            # S'il y a au moins une erreur, afficher un message d'erreur.
+
         if len(erreurs) > 0:
             return False, erreurs
 
-            # Si aucune erreur n'a été détectée, ajout d'une nouvelle entrée dans la table AMendes (champs correspondant aux paramètres du modèle)
+
         nouvelle_personne = Personnes(personne_id=ajout_personnes_id,
                                       personne_nom=ajout_personnes_nom,
                                       personne_prenom=ajout_personnes_prenom)
 
-        # Tentative d'ajout qui sera stoppée si une erreur apparaît.
+
         try:
             db.session.add(new_person)
             db.session.commit()
@@ -61,7 +61,7 @@ class Personnes(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-    # Méthode statique qui permet de supprimer une personne et qui est appelée dans la route correspondante.
+
 
     @staticmethod
     def supprimer_person(personne_id):

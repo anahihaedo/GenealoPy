@@ -268,3 +268,24 @@ def browse():
         "pages/browse.html",
         resultats=resultats
     )
+
+@app.route('/relation_person', methods=['GET', 'POST'])
+def relationship():
+
+    keyword = request.args.get("keyword", None)
+    pessoas = []
+    relation = []
+    count = []
+    title = "Recherche"
+    if keyword:
+        pessoas = Personnes.query.filter(
+            Personnes.personne_nom.like("%{}%".format(keyword))
+        ).all()
+        relation = Relation.query.\
+            join(Personnes, Relation.relation_personne_1_id == Personnes.personne_id).filter(
+                Relation.relation_nom.like("%{}%".format(keyword))
+            ).\
+            add_columns(Relation.relation_nom, Personnes.personne_prenom)
+        count = relation.count()
+        title = "Résultat pour la recherche '" + keyword + "'"
+    return render_template("relation_pers.html", title=title, pessoas=pessoas, relation=relation, count=count)
