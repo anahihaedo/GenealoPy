@@ -15,6 +15,7 @@ def homepage():
     """
     return render_template("pages/homepage.html")
 
+# Les pages d'index
 
 @app.route("/index")
 def base():
@@ -53,6 +54,8 @@ def index_even():
     evenem = evenement.query.order_by(evenement.evenement_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_even.html", evenem=evenem)
 
+# Les personnes
+
 @app.route("/person/<int:personne_id>")
 def person(personne_id):
     """Création d'une page de contenu pour une personne.
@@ -63,23 +66,31 @@ def person(personne_id):
     personne_unique = Personnes.query.get(personne_id)
     return render_template("pages/person.html", person=personne_unique)
 
+# Les évenements
+
 @app.route("/even/<int:evenement_id>")
 def even(evenement_id):
 
     unique_even = evenement.query.get(evenement_id)
     return render_template("pages/even.html", nom="Genealopy", even=unique_even)
 
+# Les relation entre les personnes
+
+@app.route("/relation/<int:relation_id>")
+def lien(relation_id):
+
+    unique_relation = Relation.query.get(relation_id)
+    return render_template("pages/relationship.html", nom="Genealopy", relation=unique_relation)
+
+# Les lieux
 
 @app.route("/place/<int:place_id>")
 def lieu(place_id):
-    """ Route permettant l'affichage des données d'un lieu
 
-    :param place_id: Identifiant numérique du lieu
-    """
-    # On a bien sûr aussi modifié le template pour refléter le changement
     unique_lieu = Place.query.get(place_id)
     return render_template("pages/place.html", nom="Genealopy", lieu=unique_lieu)
 
+# Faire une recherche par personne
 
 @app.route("/recherche")
 def recherche():
@@ -113,11 +124,12 @@ def recherche():
         titre = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
 
+# Ajouter une personne dans la base
+
 @app.route("/ajout_person", methods=["GET", "POST"])
 @login_required
 def ajout_person():
 
-    # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Personnes.ajout_personne(
         ajout_person_id = request.form.get("ajout_person_id", None),
@@ -134,11 +146,12 @@ def ajout_person():
     else:
         return render_template("pages/ajout_person.html")
 
+# Ajouter une lieu
+
 @app.route("/ajout_place", methods=["GET", "POST"])
 @login_required
 def ajout_place():
 
-    # Ajout d'une personne
     if request.method == "POST":
         statut, informations = Place.ajout_place(
         ajout_place_id = request.form.get("ajout_place_id", None),
@@ -155,11 +168,11 @@ def ajout_place():
     else:
         return render_template("pages/ajout_place.html")
 
+# Créer une compte utilisateur
 
 @app.route("/register", methods=["GET", "POST"])
 def inscription():
-    """ Route gérant les inscriptions
-    """
+
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
         statut, donnees = User.creer(
@@ -176,46 +189,6 @@ def inscription():
             return render_template("pages/inscription.html")
     else:
         return render_template("pages/inscription.html")
-
-
-@app.route("/supprimer_person/<int:personne_id>", methods=["POST", "GET"])
-@login_required
-def supprimer_person(personne_id):
-    suppr_person = Personnes.query.get(personne_id)
-
-    if request.method == "POST":
-        statut = Personnes.supprimer_person(
-            personne_id=personne_id
-        )
-
-        if statut is True:
-            flash("Suppression réussie", "success")
-            return redirect("/")
-        else:
-            flash("La suppression a échoué. Réessayez !", "error")
-            return redirect("/")
-    else:
-        return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
-
-@app.route("/supprimer_place/<int:place_id>", methods=["POST", "GET"])
-@login_required
-def supprimer_place(place_id):
-    suppr_place = Place.query.get(place_id)
-
-    if request.method == "POST":
-        statut = Place.supprimer_person(
-            place_id=place_id
-        )
-
-        if statut is True:
-            flash("Suppression réussie", "success")
-            return redirect("/")
-        else:
-            flash("La suppression a échoué. Réessayez !", "error")
-            return redirect("/")
-    else:
-        return render_template("pages/supprimer_place.html", suppr_place=suppr_place)
-
 
 
 @app.route("/connexion", methods=["POST", "GET"])
@@ -249,6 +222,50 @@ def deconnexion():
     flash("Vous êtes déconnecté-e", "info")
     return redirect("/")
 
+# Suppression des personnes
+
+@app.route("/supprimer_person/<int:personne_id>", methods=["POST", "GET"])
+@login_required
+def supprimer_person(personne_id):
+    suppr_person = Personnes.query.get(personne_id)
+
+    if request.method == "POST":
+        statut = Personnes.supprimer_person(
+            personne_id=personne_id
+        )
+
+        if statut is True:
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        else:
+            flash("La suppression a échoué. Réessayez !", "error")
+            return redirect("/")
+    else:
+        return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
+
+# Supression des lieux
+
+@app.route("/supprimer_place/<int:place_id>", methods=["POST", "GET"])
+@login_required
+def supprimer_place(place_id):
+    suppr_place = Place.query.get(place_id)
+
+    if request.method == "POST":
+        statut = Place.supprimer_person(
+            place_id=place_id
+        )
+
+        if statut is True:
+            flash("Suppression réussie", "success")
+            return redirect("/")
+        else:
+            flash("La suppression a échoué. Réessayez !", "error")
+            return redirect("/")
+    else:
+        return render_template("pages/supprimer_place.html", suppr_place=suppr_place)
+
+
+
 @app.route("/browse")
 def browse():
     """ Route permettant la recherche plein-texte
@@ -269,23 +286,33 @@ def browse():
         resultats=resultats
     )
 
-@app.route('/relation_person', methods=['GET', 'POST'])
+@app.route("/relation_person")
 def relationship():
 
-    keyword = request.args.get("keyword", None)
+    motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    # On crée une liste vide de résultat (qui restera vide par défaut
+    #   si on n'a pas de mot clé)
     pessoas = []
     relation = []
-    count = []
-    title = "Recherche"
-    if keyword:
+
+
+    # On fait de même pour le titre de la page
+    titre = "Recherche"
+    if motclef:
         pessoas = Personnes.query.filter(
-            Personnes.personne_nom.like("%{}%".format(keyword))
+            Personnes.personne_nom.like("%{}%".format(motclef))
         ).all()
         relation = Relation.query.\
             join(Personnes, Relation.relation_personne_1_id == Personnes.personne_id).filter(
-                Relation.relation_nom.like("%{}%".format(keyword))
-            ).\
-            add_columns(Relation.relation_nom, Personnes.personne_prenom)
-        count = relation.count()
-        title = "Résultat pour la recherche '" + keyword + "'"
-    return render_template("relation_pers.html", title=title, pessoas=pessoas, relation=relation, count=count)
+                Relation.relation_nom.like("%{}%".format(motclef))
+            )\
+        .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
+        title = "Résultat pour la recherche '" + motclef + "'"
+    return render_template("pages/pers_relation.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)

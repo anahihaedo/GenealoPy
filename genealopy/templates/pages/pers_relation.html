@@ -1,0 +1,28 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+{% include "partials/recherche.html" %}
+    <h1 class="text-center">{{titre}}</h1>
+
+{% if relation %}
+    <h4>Relation</h4>
+    <p>Il y a {{relation.total}} relations enregistrées qui répond à votre requête :</p>
+        <ul>
+            {% for i in relation %}
+                <li><a href="{{url_for('relationship', relation_id=relation.relation_id) }}"> {{relation.relation_nom}} </a></li>
+            {% endfor %} {% endif %}
+
+ {% if pessoas %}
+        <p>Il y a {{pessoas.total}} de personne(s) qui répondent à votre requête :</p>
+
+            {% for person in pessoas.items %}
+                <li><a href="{{url_for('person', personne_id=person.personne_id)}}">{{person.personne_nom}}</a></li>
+            {% endfor %}{% endif %}
+        </ul>
+
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('homepage')}}">Retour à l'accueil.</a></li>
+</button>
+</p>
+{% endblock %}

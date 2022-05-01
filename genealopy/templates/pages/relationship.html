@@ -1,0 +1,30 @@
+{% extends "conteneur.html" %}
+
+{% block titre %}
+    {%if relation %}| Relation : {{relation.relation_nom}} {% endif %}
+{% endblock %}
+
+{% block corps %}
+    {% if relation %}
+        <h1>{{relation.relation_nom}}</h1>
+        <dl>
+            <dt>Relation</dt><dd>{{relation.relation_nom}}</dd>
+            <dt>Identifiant de la relation</dt><dd>{{relation.relation_id}}</dd>
+            <dt>Identifiant de la des personnes concernées </dt><dd>{{relation.relation_personne_1_id}}</dd> et <dd>{{relation.relation_personne_2_id}} </dd>
+        </dl>
+    {% else %}
+        <p>La base de données est en cours de constitution</p>
+    {% endif %}
+
+<p class="col-md-12 text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('index_person')}}">Retour à l'index des personnes.</a>
+</button>
+</p>
+
+<p class="col-md-12 text-center">
+<button type="button" class="btn btn-dark">
+    <a class="text-light" href="{{url_for('index_even')}}">Retour à l'index des évenements.</a>
+</button>
+</p>
+{% endblock %}
