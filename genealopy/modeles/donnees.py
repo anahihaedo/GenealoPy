@@ -116,7 +116,6 @@ class Place(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-    # Méthode statique qui permet de supprimer une personne et qui est appelée dans la route correspondante.
 
     @staticmethod
     def supprimer_place(place_id):

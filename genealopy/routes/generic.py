@@ -8,6 +8,7 @@ from ..modeles.utilisateur import *
 
 from sqlalchemy import and_, or_
 
+# page d'accueil
 
 @app.route("/")
 def homepage():
@@ -139,7 +140,7 @@ def recherche():
         titre = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
 
-# Ajouter une personne dans la base
+# Ajouter une personne
 
 @app.route("/ajout_person", methods=["GET", "POST"])
 @login_required
@@ -161,7 +162,7 @@ def ajout_person():
     else:
         return render_template("pages/ajout_person.html")
 
-# Ajouter une lieu
+# Ajouter un lieu
 
 @app.route("/ajout_place", methods=["GET", "POST"])
 @login_required
@@ -205,11 +206,11 @@ def inscription():
     else:
         return render_template("pages/inscription.html")
 
+#Se connecter
 
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
-    """ Route gérant les connexions
-    """
+
     if current_user.is_authenticated is True:
         flash("Vous êtes déjà connecté-e", "info")
         return redirect("/")
@@ -229,6 +230,7 @@ def connexion():
     return render_template("pages/connexion.html")
 login.login_view = 'connexion'
 
+# Se déconnecter
 
 @app.route("/deconnexion", methods=["POST", "GET"])
 def deconnexion():
@@ -257,6 +259,8 @@ def supprimer_person(personne_id):
             return redirect("/")
     else:
         return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
+
+#update des personnes
 
 @app.route("/person/<int:personne_id>/update", methods=["GET", "POST"])
 @login_required
@@ -291,6 +295,8 @@ def person_update(personne_id):
             erreurs=erreurs,
             updated=updated
      )
+
+# update des lieux
 
 @app.route("/place/<int:place_id>/update", methods=["GET", "POST"])
 @login_required
@@ -399,6 +405,8 @@ def option():
         .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         title = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/option.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)
+
+# Error 404
 
 @app.errorhandler(404)
 def page_not_found(e):
