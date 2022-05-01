@@ -1,29 +1,27 @@
 {% extends "conteneur.html" %}
 {% block corps %}
-    <h2> Bienvenue dans l'index des évenements</h2>
+    <h2> Bienvenue dans l'index des relations </h2>
 <p>
-    Il y 15 évenements enregistrées (classées par ordre alphabétique) :
+    Il y 9 relations enregistrées (classées par ordre alphabétique) :
 
         <ul>
-            {% for even in evenem.items %}
-                <li><div class="card"><a href="{{url_for('even', evenement_id=even.evenement_id)}}">
-                    <b>Nom </b>: {{even.evenement_nom}}<br/>
-                    <b>Date de l'évenement</b> : {{even.evenement_date}}<br/>
-                    <b> Identifiant de l'évenement</b> : {{even.evenement_id}}<br/>
-                    <b> Identifiant du lieu </b> : {{even.id_evenement_place}}<br/>
-                    <b> Identifiant de la personne concernée par l'évenement </b> : {{even.id_evenement_place}}
+            {% for liason in relacao.items %}
+                <li><div class="card"><a href="{{url_for('liason', relation_id=liason.relation_id)}}">
+                    <b>Type de relation </b>: {{liason.relation_nom}}<br/>
+                    <b>Identifiant de la relation </b> : {{liason.relation_id}}<br/>
+                    <b> Identifiant des personnes concernées </b> : {{liason.relation_personne_1_id}} et {{liason.relation_personne_2_id}}<br/>
                 </a></div></li><br/>
             {% endfor %}
         </ul>
 
 <nav aria-label="research-pagination">
       <ul class="pagination">
-        {%- for page in evenem.iter_pages() %}
+        {%- for page in relacao.iter_pages() %}
             {% if page %}
 
-              {% if page != evenem.page %}
+              {% if page != relacao.page %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('index_even', page=page) }}">{{page}}</a>
+                    <a class="page-link" href="{{ url_for('index_relation', page=page) }}">{{page}}</a>
                 </li>
               {% else %}
                 <li class="page-item active disabled">

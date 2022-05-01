@@ -1,16 +1,16 @@
 {% extends "conteneur.html" %}
 
 {% block titre %}
-    {%if relation %}| Relation : {{relation.relation_nom}} {% endif %}
+    {%if relation %}| Relation : {{lien.relation_nom}} {% endif %}
 {% endblock %}
 
 {% block corps %}
-    {% if relation %}
-        <h1>{{relation.relation_nom}}</h1>
+    {% if lien %}
+        <h1>{{lien.relation_nom}}</h1>
         <dl>
-            <dt>Relation</dt><dd>{{relation.relation_nom}}</dd>
-            <dt>Identifiant de la relation</dt><dd>{{relation.relation_id}}</dd>
-            <dt>Identifiant de la des personnes concernées </dt><dd>{{relation.relation_personne_1_id}}</dd> et <dd>{{relation.relation_personne_2_id}} </dd>
+            <dt>Relation</dt><dd>{{lien.relation_nom}}</dd>
+            <dt>Identifiant de la relation</dt><dd>{{lien.relation_id}}</dd>
+            <dt>Identifiant de la des personnes concernées </dt><dd>{{lien.relation_personne_1_id}}</dd> et <dd>{{lien.relation_personne_2_id}} </dd>
         </dl>
     {% else %}
         <p>La base de données est en cours de constitution</p>

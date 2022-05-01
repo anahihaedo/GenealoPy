@@ -43,6 +43,21 @@ def index_place():
     place = Place.query.order_by(Place.place_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_place.html", place=place)
 
+# Index des relations
+
+@app.route("/index_relation")
+def index_relation():
+    page = request.args.get("page", 1)
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    relacao = Relation.query.order_by(Relation.relation_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
+    return render_template("pages/index_relation.html", relacao=relacao)
+
+# Index des évenements
+
 @app.route("/index_even")
 def index_even():
     page = request.args.get("page", 1)
@@ -77,10 +92,10 @@ def even(evenement_id):
 # Les relation entre les personnes
 
 @app.route("/relation/<int:relation_id>")
-def lien(relation_id):
+def liason(relation_id):
 
     unique_relation = Relation.query.get(relation_id)
-    return render_template("pages/relationship.html", nom="Genealopy", relation=unique_relation)
+    return render_template("pages/relationship.html", nom="Genealopy", lien=unique_relation)
 
 # Les lieux
 
@@ -286,8 +301,8 @@ def browse():
         resultats=resultats
     )
 
-@app.route("/relation_person")
-def relationship():
+@app.route("/option")
+def option():
 
     motclef = request.args.get("keyword", None)
     page = request.args.get("page", 1)
@@ -315,4 +330,4 @@ def relationship():
             )\
         .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         title = "Résultat pour la recherche '" + motclef + "'"
-    return render_template("pages/pers_relation.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)
+    return render_template("pages/option.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)
