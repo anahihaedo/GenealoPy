@@ -1,0 +1,38 @@
+{% extends "conteneur.html" %}
+{% block corps %}
+{% if place %}
+{% if updated %}
+<div class="alert alert-success">
+<p>Modification réussie</p>
+</div>
+{% endif %}
+<h1 class="text-center"> Mise à jour des données de la table des lieux</h1>
+<form method="POST" action="{{ url_for('place_update', place_id=place.place_id)}}">
+<div class="mb-3">
+<label for="place_id" class="form-label"><b>Identifiant du lieu:</b></label>
+<input type="text" name="place_id" class="form-control {% if 'place_id' in erreurs%}is-invalid{% endif %}" id="place_id" value="{{place.place_id}}" />
+</div>
+<div class="mb-3">
+<label for="place_nom" class="form-label">Nom de la ville:</label>
+<input type="text" name="place_nom" class="form-control {% if 'place_nom' in erreurs %}is-invalid{% endif %}" id="place_nom" value="{{place.place_nom}}" />
+</div>
+<div class="mb-3">
+<label for="place_pays" class="form-label">Nom du pays:</label>
+<input type="text" name="place_pays" class="form-control {% if 'place_pays' in erreurs %}is-invalid{% endif %}" id="place_pays" value="{{place.place_pays}}" />
+</div>
+</form>
+<br/>
+<p class="text-center">
+<input type="submit" name="Modifier" class="btn btn-info" />
+<button type="button" class="btn btn-danger">
+<a class="text-light" href="{{url_for('index_place')}}">Annuler</a></li>
+</button>
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+<a class="text-light" href="{{url_for('homepage')}}">Retour à l'accueil.</a></li>
+</button>
+</p>
+{% else %}
+<p>La base de données est en cours de constitution</p>
+{% endif %}
+{% endblock %}

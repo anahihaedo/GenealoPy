@@ -258,6 +258,74 @@ def supprimer_person(personne_id):
     else:
         return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
 
+@app.route("/person/<int:personne_id>/update", methods=["GET", "POST"])
+@login_required
+def person_update(personne_id):
+
+    edit = Personnes.query.get_or_404(personne_id)
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("personne_id", "").strip():
+            erreurs.append("Insérez un identifiant")
+        if not request.form.get("personne_nom", "").strip():
+            erreurs.append("Insérez un nom")
+        if not request.form.get("personne_prenom", "").strip():
+            erreurs.append("Insérez un prénom")
+
+        if not erreurs:
+            print("Faire ma modification")
+            edit.personne_id = request.form["personne_id"]
+            edit.personne_nom = request.form["personne_nom"]
+            edit.personne_prenom = request.form["personne_prenom"]
+
+            db.session.add(edit)
+            db.session.add(Authorship(personne=edit, user=current_user))
+            db.session.commit()
+            updated = True
+
+    return render_template(
+            "pages/person_form_update.html",
+            personne=edit,
+            erreurs=erreurs,
+            updated=updated
+     )
+
+@app.route("/place/<int:place_id>/update", methods=["GET", "POST"])
+@login_required
+def place_update(place_id):
+
+    edit_place = Place.query.get_or_404(place_id)
+    erreurs = []
+    updated = False
+
+    if request.method == "POST":
+        if not request.form.get("place_id", "").strip():
+            erreurs.append("Insérez un identifiant")
+        if not request.form.get("place_nom", "").strip():
+            erreurs.append("Insérez le nom de la ville")
+        if not request.form.get("place_pays", "").strip():
+            erreurs.append("Insérez le pays")
+
+        if not erreurs:
+            print("Faire ma modification")
+            edit_place.place_id = request.form["place_id"]
+            edit_place.personne_nom = request.form["place_nom"]
+            edit_place.personne_prenom = request.form["place_pays"]
+
+            db.session.add(edit_place)
+            db.session.add(Authorship(place=edit_place, user=current_user))
+            db.session.commit()
+            updated = True
+
+    return render_template(
+            "pages/place_form_update.html",
+            place=edit_place,
+            erreurs=erreurs,
+            updated=updated
+     )
+
 # Supression des lieux
 
 @app.route("/supprimer_place/<int:place_id>", methods=["POST", "GET"])
@@ -331,3 +399,7 @@ def option():
         .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
         title = "Résultat pour la recherche '" + motclef + "'"
     return render_template("pages/option.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("pages/404.html", nom="404 - Page non trouvé")

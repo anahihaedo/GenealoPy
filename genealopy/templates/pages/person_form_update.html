@@ -1,0 +1,38 @@
+{% extends "conteneur.html" %}
+{% block corps %}
+{% if personne %}
+{% if updated %}
+<div class="alert alert-success">
+<p>Modification réussie</p>
+</div>
+{% endif %}
+<h1 class="text-center"> Mise à jour des données de la table des personnes</h1>
+<form method="POST" action="{{ url_for('person_update', personne_id=personne.personne_id)}}">
+<div class="mb-3">
+<label for="personne_id" class="form-label"><b>Identifiant de la personne:</b></label>
+<input type="text" name="personne_id" class="form-control {% if 'personne_id' in erreurs%}is-invalid{% endif %}" id="personne_id" value="{{personne.personne_id}}" />
+</div>
+<div class="mb-3">
+<label for="personne_nom" class="form-label">Nom de la personne:</label>
+<input type="text" name="personne_nom" class="form-control {% if 'personne_nom' in erreurs %}is-invalid{% endif %}" id="personne_nom" value="{{personne.personne_nom}}" />
+</div>
+<div class="mb-3">
+<label for="personne_prenom" class="form-label">Prénom de la personne:</label>
+<input type="text" name="personne_prenom" class="form-control {% if 'personne_prenom' in erreurs %}is-invalid{% endif %}" id="personne_prenom" value="{{personne.personne_prenom}}" />
+</div>
+</form>
+<br/>
+<p class="text-center">
+<input type="submit" name="Modifier" class="btn btn-info" />
+<button type="button" class="btn btn-danger">
+<a class="text-light" href="{{url_for('index_person')}}">Annuler</a></li>
+</button>
+<p class="text-center">
+<button type="button" class="btn btn-dark">
+<a class="text-light" href="{{url_for('homepage')}}">Retour à l'accueil.</a></li>
+</button>
+</p>
+{% else %}
+<p>La base de données est en cours de constitution</p>
+{% endif %}
+{% endblock %}
