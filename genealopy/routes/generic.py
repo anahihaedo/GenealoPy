@@ -33,6 +33,8 @@ def index_person():
     personnes = Personnes.query.order_by(Personnes.personne_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/person_index.html", personnes=personnes)
 
+# Index des lieux
+
 @app.route("/index_place")
 def index_place():
     page = request.args.get("page", 1)
@@ -70,7 +72,7 @@ def index_even():
     evenem = evenement.query.order_by(evenement.evenement_nom).paginate(page=page, per_page=RESULTATS_PAR_PAGES_INDEX)
     return render_template("pages/index_even.html", evenem=evenem)
 
-# Les personnes
+# La page des personnes
 
 @app.route("/person/<int:personne_id>")
 def person(personne_id):
@@ -206,7 +208,7 @@ def inscription():
     else:
         return render_template("pages/inscription.html")
 
-#Se connecter
+# Se connecter
 
 @app.route("/connexion", methods=["POST", "GET"])
 def connexion():
@@ -260,7 +262,7 @@ def supprimer_person(personne_id):
     else:
         return render_template("pages/supprimer_person.html", suppr_person=suppr_person)
 
-#update des personnes
+# Update des personnes
 
 @app.route("/person/<int:personne_id>/update", methods=["GET", "POST"])
 @login_required
@@ -353,7 +355,7 @@ def supprimer_place(place_id):
     else:
         return render_template("pages/supprimer_place.html", suppr_place=suppr_place)
 
-
+# Navigation par lieu
 
 @app.route("/browse")
 def browse():
