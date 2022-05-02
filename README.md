@@ -7,6 +7,7 @@ L'application GenealoPy a pour objectif de partager des données genealogiques r
 # Installation sur Ubuntu
 
 Installé Python3
+
 Ouvrir un terminal et cloner le dépôt : git clone https://github.com/anahihaedo/GenealoPy.git
 
 Se déplacer dans le dossier du dépôt : cd genealopy
