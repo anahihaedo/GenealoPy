@@ -8,7 +8,7 @@ from ..modeles.utilisateur import *
 
 from sqlalchemy import and_, or_
 
-# page d'accueil
+# page d'accueil.
 
 @app.route("/")
 def homepage():
