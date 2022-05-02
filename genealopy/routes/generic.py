@@ -375,36 +375,6 @@ def browse():
         resultats=resultats
     )
 
-@app.route("/option")
-def option():
-
-    motclef = request.args.get("keyword", None)
-    page = request.args.get("page", 1)
-
-    if isinstance(page, str) and page.isdigit():
-        page = int(page)
-    else:
-        page = 1
-
-    # On crée une liste vide de résultat (qui restera vide par défaut
-    #   si on n'a pas de mot clé)
-    pessoas = []
-    relation = []
-
-
-    # On fait de même pour le titre de la page
-    titre = "Recherche"
-    if motclef:
-        pessoas = Personnes.query.filter(
-            Personnes.personne_nom.like("%{}%".format(motclef))
-        ).all()
-        relation = Relation.query.\
-            join(Personnes, Relation.relation_personne_1_id == Personnes.personne_id).filter(
-                Relation.relation_nom.like("%{}%".format(motclef))
-            )\
-        .paginate(page=page, per_page=RESULTATS_PAR_PAGES)
-        title = "Résultat pour la recherche '" + motclef + "'"
-    return render_template("pages/option.html", pessoas=pessoas, relation=relation, titre=titre, keyword=motclef)
 
 # Error 404
 
